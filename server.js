@@ -5,9 +5,8 @@ const cors=require('cors')
 const mongoose=require('mongoose')
 const middleware=require('./middleware.js')
 
-mongoose.connect('mongodb+srv://webdevelopment865:9V16Xxu0bpPoJjQX@cluster0.wfqxcss.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0').then(()=>{
+mongoose.connect(process.env.DATABASE_URL || 'mongodb://mongodb-service:27017/mydb').then(()=>{
 console.log('db connected');
-
 })
 const app=express()
 app.use(express.json())
@@ -88,7 +87,9 @@ app.get('/user',middleware,async(req,res)=>{
         return res.status(500).json("server error")
     }
 })
+console.log(process.env.PORT);
 
-app.listen(5000,()=>{
+
+app.listen(process.env.PORT||5000,()=>{
     console.log('server running...');
 })
